@@ -29,12 +29,12 @@ jobs:
         fi
 
     - name: Lint JavaScript files
-      run: eslint content-script.js || true
+      run: eslint detector-core.js content-script.js popup.js || true
 
     - name: Build extension ZIP
       run: |
         mkdir -p dist
-        zip -r dist/ghost-job-detector.zip manifest.json content-script.js popup.html || true
+        zip -r dist/ghost-job-detector.zip manifest.json detector-core.js content-script.js popup.html popup.js icon.png
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
