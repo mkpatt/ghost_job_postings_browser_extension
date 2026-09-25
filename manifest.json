@@ -1,21 +1,43 @@
 {
   "manifest_version": 2,
   "name": "Ghost Job Detector",
-  "version": "1.1",
-  "description": "Detects potential ghost job listings on job boards.",
-  "permissions": ["activeTab", "storage"],
+  "version": "2.1",
+  "description": "Scores LinkedIn, Indeed, Glassdoor and ZipRecruiter job postings for ghost-job warning signs (age, reposts, evergreen language, pay transparency, vacancy disclosures and more).",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": [
-        "https://*.linkedin.com/jobs/*",
-        "https://*.indeed.com/viewjob*",
-        "https://*.glassdoor.com/Job/*"
+        "https://*.linkedin.com/*",
+        "https://*.indeed.com/*",
+        "https://*.glassdoor.com/*",
+        "https://*.ziprecruiter.com/*"
       ],
-      "js": ["content-script.js"]
+      "js": [
+        "detector-core.js",
+        "content-script.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
     }
   ],
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
+  },
+  "icons": {
+    "48": "icon.png",
+    "96": "icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
   }
 }

@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <style>
-    body { font-family: Arial, sans-serif; padding: 10px; width: 240px; }
-    #status { font-size: 14px; margin-bottom: 10px; }
-    button { margin-top: 5px; }
+    body { font: 13px/1.4 system-ui, Arial, sans-serif; padding: 12px; width: 320px; margin: 0; }
+    h3 { margin: 0 0 8px; }
+    #verdict { font-weight: bold; padding: 6px 8px; border-radius: 4px; margin-bottom: 6px; }
+    .high { background: #b3261e; color: #fff; }
+    .medium { background: #f2a900; color: #1a1a1a; }
+    .low { background: #2e7d32; color: #fff; }
+    .none { background: #eee; color: #333; }
+    ul { padding-left: 18px; margin: 4px 0 8px; }
+    li { margin-bottom: 3px; }
+    .green { color: #2e7d32; }
+    .muted { color: #666; font-size: 12px; }
+    hr { border: 0; border-top: 1px solid #ddd; margin: 10px 0; }
+    button, select { font: inherit; }
+    .row { display: flex; justify-content: space-between; align-items: center; margin: 4px 0; }
   </style>
 </head>
 <body>
   <h3>Ghost Job Detector</h3>
-  <p id="status">Extension is active.</p>
-  <div>
-    <p><strong>Jobs Tracked:</strong> <span id="jobCount">0</span></p>
-    <button id="clearBtn">Clear History</button>
+  <div id="verdict" class="none">Open a job posting to analyze it.</div>
+  <div id="job" class="muted"></div>
+  <ul id="reasons"></ul>
+  <button id="rerun">Re-analyze this page</button>
+  <hr>
+  <div class="row">
+    <span>Show banner at:</span>
+    <select id="minLevel">
+      <option value="low">All jobs</option>
+      <option value="medium">Possible or likely</option>
+      <option value="high">Likely only</option>
+    </select>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const data = JSON.parse(localStorage.getItem('ghostJobHistory') || '{}');
-      document.getElementById('jobCount').textContent = Object.keys(data).length;
-
-      document.getElementById('clearBtn').addEventListener('click', () => {
-        localStorage.removeItem('ghostJobHistory');
-        document.getElementById('jobCount').textContent = '0';
-        alert('History cleared.');
-      });
-    });
-  </script>
+  <div class="row">
+    <span><strong>Jobs tracked:</strong> <span id="jobCount">0</span></span>
+    <button id="clearBtn">Clear history</button>
+  </div>
+  <p class="muted">Scores are heuristics, not proof. Check the company's own careers page before applying.</p>
+  <script src="popup.js"></script>
 </body>
 </html>
